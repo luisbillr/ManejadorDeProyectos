@@ -10,7 +10,7 @@
     </div>
 @endif
 <div class="page-header">
-	<h1><i class="fa fa-plus"></i> Proyectos / Nuevo </h1>
+	<h1><i class="fa fa-plus"></i> Nuevo Proyecto </h1>
 </div>
 {{-- @include('common.error') --}}
 <div class="row">
@@ -34,22 +34,18 @@
 			</div>
 			{{-- {{Auth::user()->roles[0]->name}} --}}
 			@if(Auth::user()->roles[0]->name == "admin")
-			<div class="form-group @if($errors->has('user_asigned_to')) has-error @endif">
-				<select class="selectpicker form-control" id="user_asigned_to" name="user_asigned_to" data-live-search="true" data-container="body" required>
-					<option select="selected">Select Location </option>
-				
-			  	</select>
-				@if($errors->has("user_asigned_to"))
-				<span class="help-block text-danger">{{ $errors->first("user_asigned_to") }}</span>
-				@endif
-			</div>
-			<div class="col-md-6">
-				
-			</div>
+				<div class="form-group @if($errors->has('user_id')) has-error @endif">
+					<select  class="selectpicker form-control" name="user_id" id="user_id"  data-live-search="true" data-container="body" required>
+					<option select="selected" value="">Seleccionar Usuario </option>
+					</select>
+					@if($errors->has("user_id"))
+					<span class="help-block text-danger">{{ $errors->first("user_id") }}</span>
+					@endif
+				</div>
 			@endif
 			<div class="well well-sm">
 				<button type="submit" class="btn btn-primary">Crear</button>
-				<a class="btn btn-info" href="{{ route('proyecto.index') }}"><i class="fa fa-backward"></i> Atras</a>
+				<a class="btn btn-default" href="{{ route('proyecto.index') }}"><i class="fa fa-backward"></i> Atras</a>
 			</div>
 		</form>
 
@@ -68,7 +64,7 @@
 		}).responseText;
 			console.log(datosUsuarios);
 		$.each(JSON.parse(datosUsuarios), function (idx, obj) {
-			$("#user_asigned_to").append('<option value="' + obj.id + '">' + obj.name + '</option>').selectpicker('refresh');
+			$("#user_id").append('<option value="' + obj.id + '">' + obj.name + '</option>').selectpicker('refresh');
 		});
 	});
 </script>

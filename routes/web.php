@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::resource('proyecto',ProyectoController::class);
 //agrupamos todas las rutas que necesitan que el usuario este autentificado
 Route::group(['middleware' => 'auth'], function () {

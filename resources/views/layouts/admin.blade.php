@@ -136,12 +136,12 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/paciente" class="nav-link active">
+                <a href="/user" class="nav-link active">
                   <i class="fas fa-user-cog nav-icon"></i>
                   <p>Usuarios</p>
                 </a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="./index2.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Administradores</p>
@@ -152,7 +152,7 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dashboard v3</p>
                 </a>
-              </li>
+              </li> --}}
             </ul>
           </li>
            <li class="nav-item has-treeview menu-open">
@@ -166,12 +166,12 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/paciente" class="nav-link active">
+                <a href="/proyecto" class="nav-link active">
                   <i class="fas fa-user-cog nav-icon"></i>
-                  <p>Usuarios</p>
+                  <p>Proyectos</p>
                 </a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="./index2.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Agregar Proyecto</p>
@@ -182,7 +182,7 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dashboard v3</p>
                 </a>
-              </li>
+              </li> --}}
             </ul>
           </li>
           <li class="nav-item">

@@ -85,6 +85,6 @@
 </div>
 
 <div class="row">
-	<a class="btn btn-default" href="{{ route('proyecto.index') }}"><i class="fa fa-btn fa-backward"></i> Volver</a>
+	<a class="btn btn-default" href="{{ route('proyecto.index') }}"><i class="fa fa-backward"></i> Atras</a>
 </div>
 @endsection

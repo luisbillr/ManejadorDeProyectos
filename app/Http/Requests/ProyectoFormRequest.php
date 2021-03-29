@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Support\Facades\Auth;
 class ProyectoFormRequest extends FormRequest
 {
     /**
@@ -23,10 +23,23 @@ class ProyectoFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-            'nombre'=>'required|max:30',
-            'descripcion'=>'required|max:250'
-        ];
+        if(Auth::user()->roles[0]->name == 'admin')
+        {
+            return [
+                //
+                'nombre'=>'required|max:30',
+                'descripcion'=>'required|max:250',
+                'user_id' => 'required'
+            ];
+
+        }else
+        {
+            return [
+                //
+                'nombre'=>'required|max:30',
+                'descripcion'=>'required|max:250'
+            ];
+        }
+
     }
 }

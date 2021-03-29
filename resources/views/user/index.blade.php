@@ -1,5 +1,13 @@
 @extends('layouts.admin')
 @section('contenido')
+<div class="page-header clearfix">
+	<h1>
+		 Usuarios
+         @if(Auth::user()->roles[0]->name == 'admin' || Auth::user()->roles[0]->name == 'manager')
+		    <a class="btn btn-success pull-right" href="{{ route('register') }}"><i class="fa fa-btn fa-plus"></i> Agregar Nuevo</a>
+        @endif
+	</h1>
+</div>
 <table class="table table-hover ">
     <thead>
         <tr>
