@@ -34,11 +34,17 @@
 			</div>
 			{{-- {{Auth::user()->roles[0]->name}} --}}
 			@if(Auth::user()->roles[0]->name == "admin")
-			<div class="col-md-6">
-				<select class="selectpicker form-control" id="cbresponsable" name="user_asigned_to" data-live-search="true" data-container="body">
+			<div class="form-group @if($errors->has('user_asigned_to')) has-error @endif">
+				<select class="selectpicker form-control" id="user_asigned_to" name="user_asigned_to" data-live-search="true" data-container="body" required>
 					<option select="selected">Select Location </option>
 				
 			  	</select>
+				@if($errors->has("user_asigned_to"))
+				<span class="help-block text-danger">{{ $errors->first("user_asigned_to") }}</span>
+				@endif
+			</div>
+			<div class="col-md-6">
+				
 			</div>
 			@endif
 			<div class="well well-sm">
@@ -62,7 +68,7 @@
 		}).responseText;
 			console.log(datosUsuarios);
 		$.each(JSON.parse(datosUsuarios), function (idx, obj) {
-			$("#cbresponsable").append('<option value="' + obj.id + '">' + obj.name + '</option>').selectpicker('refresh');
+			$("#user_asigned_to").append('<option value="' + obj.id + '">' + obj.name + '</option>').selectpicker('refresh');
 		});
 	});
 </script>

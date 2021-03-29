@@ -16,10 +16,15 @@ class CreateTareaTable extends Migration
         Schema::create('tarea', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('proyecto_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_asigned_by');
+            $table->unsignedBigInteger('user_asigned_to');
             $table->string('Nombre');
             $table->string('Descripcion');
-            $table->foreign('user_id')
+            $table->foreign('user_asigned_by')
+            ->references('id')
+            ->on('users')
+            ->onDelete('cascade');
+            $table->foreign('user_asigned_to')
             ->references('id')
             ->on('users')
             ->onDelete('cascade');

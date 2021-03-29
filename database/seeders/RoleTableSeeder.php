@@ -5,7 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Role;
-
+use App\Models\User;
+use DB;
+use Str;
+use Hash;
 class RoleTableSeeder extends Seeder
 {
     /**
@@ -32,22 +35,16 @@ class RoleTableSeeder extends Seeder
         $role->name = 'empleado';
         $role->description = 'Empleado';
         $role->save();
-                // //creamos una instancia del servicio de faker para poder obtener valores aleatorios
-                // $f = Factory::create();
-                // //creamos 50 proyectos
-                // for ($j=0; $j < 50 ; $j++) {
-                //     $p1= new App\Models\Proyecto();
-                //     $p1->titulo="proyecto $j :: ".$f->name;
-                //     $p1->descripcion=$f->text;
-                //     //asignamos el proyecto al usuario 1
-                //     $u1->proyectos()->save($p1);
-                //     //generamos entre 1 y 10 tareas para el proyecto
-                //     for ($i=0; $i < $f->numberBetween(1,10) ; $i++) {
-                //         $t=new App\Models\Tarea();
-                //         $t->tarea="Tarea : ".$f->name;
-                //         $p1->tareas()->save($t);
-                //     } //for ($i=0; $i < 5 ; $i++)
-                // } //for ($j=0; $j < 50 ; $j++)
 
+        $user = new User();
+        $user->name = 'Luis Heskey';
+        $user->email = 'luisbillr@gmail.com';
+        $user->password = Hash::make('admin');
+        $user->save();
+        
+        DB::table('role_user')->insert([
+            'role_id' => 1,
+            'user_id' => 1,
+        ]);
     }
 }
