@@ -20,25 +20,18 @@ class ProyectoController extends Controller
     public function index(Request $request)
     {
         //
+        // $q=$request->has('buscar')?'%'.$request->buscar.'%':'%';
         $q=$request->has('buscar')?'%'.$request->buscar.'%':'%';
-       
-        // if(Auth::user()->roles[0]->name == "admin")
-        // {
-            $proyectos = Proyecto::with('tarea') //obtener los objetos relacionados
-            // ->where('user_id',Auth::user()->id) //solo los proyectos del usuario autenticado
-           ->Where('nombre','like',$q) //busca los que contengan en el titulo la palabra buscar
-           ->orderBy('user_id', 'desc') //en orden descendente por id
-           ->paginate(10); //genere la paginación
-        // }
-        // else{
-        //     $proyectos = Proyecto::with('tarea') //obtener los objetos relacionados
-        //     ->where('user_id',Auth::user()->id) //solo los proyectos del usuario autenticado
-        //    ->Where('nombre','like',$q) //busca los que contengan en el titulo la palabra buscar
-        //    ->orderBy('user_id', 'desc') //en orden descendente por id
-        //    ->paginate(10); //genere la paginación
-        // }
-
+        // $q = $request->get('buscar');
+        $proyectos = Proyecto::with('tarea') //obtener los objetos relacionados
+        ->with('user')
+        // ->join('users','proyecto.user_id','=','users.id')
+        // ->where('user_id',Auth::user()->id) //solo los proyectos del usuario autenticado
+        ->Where('nombre','like',$q) //busca los que contengan en el titulo la palabra buscar
+        ->orderBy('user_id', 'desc') //en orden descendente por id
+        ->paginate(10); //genere la paginación
         return view('proyecto.index', compact('proyectos'));
+        //  return response($proyectos);
     }
 
     /**
@@ -84,6 +77,7 @@ class ProyectoController extends Controller
         // if(Auth::user()->roles[0]->name == "admin")
         // {
             $proyecto = Proyecto::with('tarea') 
+            ->with('user')
             // ->where('user_id',Auth::user()->id) //solo los proyectos del usuario autenticado
            ->Where('id','=',$id) 
            ->orderBy('user_id', 'desc') 

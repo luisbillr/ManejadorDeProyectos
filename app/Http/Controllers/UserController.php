@@ -110,8 +110,9 @@ class UserController extends Controller
             ->join('users','users.id','=','proyecto.user_id')
             ->join('tarea','proyecto.id','=','tarea.proyecto_id')
             ->where('users.id','=',$request->UserId)
+            // ->select('proyecto.id as ProyectoId','proyecto.nombre as Proyecto','tarea.estado')
             ->select('proyecto.id as ProyectoId','proyecto.nombre as Proyecto',DB::raw('count(tarea.id) as TotalTareas'),
-            DB::raw('count(tarea.estado) as TareasCompletadas'))
+            DB::raw('sum(tarea.estado) as TareasCompletadas'))
             ->groupBy('proyecto.id')
             ->get();
         }else{
@@ -120,13 +121,52 @@ class UserController extends Controller
             ->join('tarea','proyecto.id','=','tarea.proyecto_id')
             ->where('tarea.user_asigned_to','=',$request->UserId)
             ->select('proyecto.id as ProyectoId','proyecto.nombre as Proyecto',DB::raw('count(tarea.id) as TotalTareas'),
-            DB::raw('count(tarea.estado) as TareasCompletadas'))
+            DB::raw('sum(tarea.estado) as TareasCompletadas'))
             ->groupBy('proyecto.id')
             ->get();
         }
         return response()->json(
-            $users
-            // $users->toArray()
+            $users->toArray()
+        );
+    }
+    public function GetUsersTareaInfoByIdProyecto(Request $request)
+    {
+        $tareas = DB::table("tarea")
+        ->where('tarea.proyecto_id','=',$request->IdProyecto)
+        ->select('tarea.*')
+        ->get();
+            // $users = DB::table("proyecto")
+            // ->join('users','users.id','=','proyecto.user_id')
+            // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
+            // ->where('proyecto.id','=',$request->IdProyecto)
+            // // ->select('proyecto.id as ProyectoId','proyecto.nombre as Proyecto','tarea.estado')
+            // ->select('proyecto.id as ProyectoId','proyecto.nombre as Proyecto',DB::raw('count(tarea.id) as TotalTareas'),
+            // DB::raw('count(tarea.estado) as TareasCompletadas'))
+            // ->groupBy('proyecto.id')
+            // ->get();
+        return response()->json(
+            $tareas->toArray()
+        );
+    }
+    public function GetUsersListOnTareasByIdProyecto(Request $request)
+    {
+        $users = DB::table("tarea")
+        ->join('users','users.id','=','tarea.user_asigned_to')
+        ->where('tarea.proyecto_id','=',$request->IdProyecto)
+        ->select('users.*')
+        ->groupBy('users.id')
+        ->get();
+            // $users = DB::table("proyecto")
+            // ->join('users','users.id','=','proyecto.user_id')
+            // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
+            // ->where('proyecto.id','=',$request->IdProyecto)
+            // // ->select('proyecto.id as ProyectoId','proyecto.nombre as Proyecto','tarea.estado')
+            // ->select('proyecto.id as ProyectoId','proyecto.nombre as Proyecto',DB::raw('count(tarea.id) as TotalTareas'),
+            // DB::raw('count(tarea.estado) as TareasCompletadas'))
+            // ->groupBy('proyecto.id')
+            // ->get();
+        return response()->json(
+            $users->toArray()
         );
     }
 }

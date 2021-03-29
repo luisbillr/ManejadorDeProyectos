@@ -68,7 +68,7 @@ class TareaController extends Controller
         // $tarea->completo = false;
         $tarea->descripcion = $request->input('descripcion');
         $proyecto->tarea()->save($tarea);
-        return redirect()->route('tarea.show',$id)->with('message', 'Nueva Tarea Guardada!!!');
+        return redirect()->route('proyecto.show',$id)->with('message', 'Nueva Tarea Guardada!!!');
     }
     /**
     * Elimina una Tarea

@@ -42,4 +42,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('usersforproyecto',[ProyectoController::class,'GetUsuariosForProyecto']);
     Route::get('usersfortareas',[ProyectoController::class,'GetUsuariosForTareas']);
     Route::get('GetUsersProyectosInfo',[UserController::class,'GetUsersProyectosInfo']);
+    Route::get('GetUsersTareaInfoByIdProyecto',[UserController::class,'GetUsersTareaInfoByIdProyecto']);
+    Route::get('GetUsersListOnTareasByIdProyecto',[UserController::class,'GetUsersListOnTareasByIdProyecto']);
   }); 

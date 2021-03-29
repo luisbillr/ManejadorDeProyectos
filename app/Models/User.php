@@ -15,7 +15,7 @@ class User extends Authenticatable
     //marcamos la relación de uno a muchos entre User y Proyecto
     public function proyectos()
     {
-            return $this->hasMany(Proyecto::class);
+        return $this->hasMany(Proyecto::class);
     }
     /**
      * The attributes that are mass assignable.

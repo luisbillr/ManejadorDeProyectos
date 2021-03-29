@@ -11,11 +11,11 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="search">
-			<form action="/proyectos" method="GET" class="form-horizontal">
+			<form action="/proyecto" method="GET" class="form-horizontal form-search" role="search" >
 				<div class="form-group">
 					{{-- <label for="buscar" class="control-label col-sm-offset-1">Proyecto</label> --}}
 					<div class="input-group col-sm-offset-1 col-sm-10">
-						<input type="text" name="buscar" id="buscar" class="form-control" value="{{ request()->buscar }}" placeholder="buscar Proyecto">
+						<input type="text" name="buscar" id="buscar" class="form-control" value="" placeholder="buscar Proyecto">
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="submit"><i class="fa fa-btn fa-search"></i>buscar</button>
 						</span>
@@ -51,6 +51,7 @@
 						<input type="text" class="knob" value="{{round($porciento,2)}}" data-width="70" data-height="70" data-fgColor="#3d9970" readonly disabled >
 						<div class="col-md-10">
 							<h4 class="list-group-item-heading text-info">{{$proyecto->Nombre}} <span class="badge text-warning">({{$proyecto->tarea->count()}})</span></h4>
+							<h4 class="list-group-item-heading text-dark">Responsable: <span class=" text-danger">{{$proyecto->user->name}}<span></h4>
 							<p class="list-group-item-text text-dark">{{$proyecto->Descripcion}}</p>
 						</div>
 					</div>

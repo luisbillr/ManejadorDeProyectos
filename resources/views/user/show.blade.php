@@ -14,8 +14,8 @@
                     </div>
                     <div class="card-body">
                         <p>Nombre: {{$user->name}}</p>
-                        <p>Nombre: {{$user->email}}</p>
-                        <p>Nombre: {{$user->Rol}}</p>
+                        <p>Correo: {{$user->email}}</p>
+                        <p>Rol: {{$user->Rol}}</p>
                         <input type="hidden" id="txtUserRole" value="{{$user->Rol}}">
                         <input type="hidden" id="txtUserId" value="{{$user->id}}">
                     </div>
@@ -40,27 +40,46 @@
 <!-- jQuery -->
 <script src="{{asset('adminLTE/plugins/jquery/jquery.min.js')}}"></script>
 <script>
+    function GetDatosTarea(id)
+    {
+        var datosTareas = $.ajax({
+            url: "http://127.0.0.1:8000/GetUsersTareaInfoByIdProyecto",
+            async: false,
+            data:{
+                'IdProyecto':id,
+            },
+        }).responseText;
+        return datosTareas;
+    }
     $(document).ready(function(){
         var userRole = $("#txtUserRole").val();
         var userId = $("#txtUserId").val();
-        var urldatos = "http://127.0.0.1:8000/GetUsersProyectosInfo";
-        var datosUsuarios = $.ajax({
-            url: urldatos,
+        var Proyectoid = 0;
+        var datosProyectos = $.ajax({
+            url: "http://127.0.0.1:8000/GetUsersProyectosInfo",
             async: false,
             data:{
                 'UserRole':userRole,
                 'UserId': userId
             },
         }).responseText;
-        $.each(JSON.parse(datosUsuarios), function (idx, obj) {
+        $.each(JSON.parse(datosProyectos), function (idx, obj) {
+            var listatareas = JSON.parse(GetDatosTarea(obj.ProyectoId));
             var porciento = 0;
+            var TareasCompletadas = 0;
             console.log(obj);
-            porciento = (obj.TareasCompletadas/obj.TotalTareas)*100;
-            // console.log(datosUsuarios);
+            console.log(listatareas.length)
+            listatareas.forEach(element => {
+                if (element.estado == 1) {
+                    TareasCompletadas+=1;
+                }
+            });
+            porciento = (TareasCompletadas/listatareas.length)*100;
+
             $("#listaProyectos").append('<a href="' + "http://127.0.0.1:8000/proyecto/"+obj.ProyectoId + '">' 
                 +'<div class="row">'
                     +'<input type="text" class="knob" value="'+Math.round(porciento)+'" data-width="70" data-height="70" data-fgColor="#3d9970" readonly disabled >'
-                    +'<h6 class="list-group-item-heading text-info">'+ obj.Proyecto +'<span class="badge text-warning">('+obj.TotalTareas+')</span></h6>'
+                    +'<h6 class="list-group-item-heading text-info">'+ obj.Proyecto +'<span class="badge text-warning">('+listatareas.length+')</span></h6>'
                 +'</div>'
             +'</a>');
         });

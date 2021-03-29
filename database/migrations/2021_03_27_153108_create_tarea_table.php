@@ -33,10 +33,10 @@ class CreateTareaTable extends Migration
             ->on('proyecto')
             ->onDelete('cascade');
             $table->timestamps();
-            $table->integer('Estado');
+            $table->integer('estado');
         });
         // Add the constraint
-        DB::statement('ALTER TABLE tarea ADD CONSTRAINT chk_estado_value CHECK (Estado = 0 or Estado=1 );');
+        DB::statement('ALTER TABLE tarea ADD CONSTRAINT chk_estado_value CHECK (estado = 0 or estado=1 or estado=2);');
     }
 
     /**
