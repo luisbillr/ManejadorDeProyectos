@@ -94,6 +94,6 @@ class TareaController extends Controller
         $tarea->estado=$request->input('estado');
         $tarea->save();
         // return response($idTarea);
-        return redirect()->route('tarea.show',$id)->with('message', 'Tarea Actualizada!!!');
+        return redirect()->route('proyecto.show',$id)->with('message', 'Tarea Actualizada!!!');
     }
 }

@@ -10,17 +10,20 @@
     </div>
 @endif
 <div class="page-header">
-	<div class="card">
+	<div class="card card-olive">
 		<div class="card-header">
-			<h3 class="card-title">Informacion De Proyecto</h3>
+			<h3 class="card-title">Informacion Del Proyecto</h3>
 		</div>
 		<div class="card-body">
 			<div class="row">
 				<div class="col-md-12">
 					<h2>Nombre Del Proyecto: {{$proyecto[0]->Nombre}}<!-- Button trigger modal -->
-						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-						  Agregar Tarea
-						</button>
+						@if(Auth::user()->roles[0]->name == "admin" || Auth::user()->roles[0]->name == "manager")
+								<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+								Agregar Tarea
+								</button>
+						
+						@endif
 					</h2>
 					{{-- <form action="{{ route('proyectos.destroy', $proyecto->id) }}" method="POST" style="display: inline;" onsubmit="if(confirm('Estas seguro de Eliminar?')) { return true } else {return false };">
 						<input type="hidden" name="_method" value="DELETE">
@@ -39,7 +42,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-6">
-					<div class="card card-dark">
+					<div class="card card-olive">
 					  <div class="card-header">
 						<h3 class="card-title">Progreso Del Proyecto</h3>
 					  </div>
@@ -64,7 +67,7 @@
 							}
 						  @endphp
 						
-						  <input type="text" class="knob" value="{{round($porciento,2)}}" data-width="160" data-height="160" data-fgColor="#3c8dbc" readonly disabled >
+						  <input type="text" class="knob" value="{{round($porciento,2)}}" data-width="160" data-height="160" data-fgColor="#3d9970" readonly disabled >
 		  
 						  {{-- <div class="knob-label">New Visitors</div> --}}
 						</div>
@@ -82,6 +85,6 @@
 </div>
 
 <div class="row">
-	<a class="btn btn-link" href="{{ route('proyecto.index') }}"><i class="fa fa-btn fa-backward"></i>Volver</a>
+	<a class="btn btn-default" href="{{ route('proyecto.index') }}"><i class="fa fa-btn fa-backward"></i> Volver</a>
 </div>
 @endsection

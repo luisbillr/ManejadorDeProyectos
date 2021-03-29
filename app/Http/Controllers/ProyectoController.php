@@ -81,21 +81,21 @@ class ProyectoController extends Controller
      */
     public function show($id)
     {
-        if(Auth::user()->roles[0]->name == "admin")
-        {
+        // if(Auth::user()->roles[0]->name == "admin")
+        // {
             $proyecto = Proyecto::with('tarea') 
             // ->where('user_id',Auth::user()->id) //solo los proyectos del usuario autenticado
            ->Where('id','=',$id) 
            ->orderBy('user_id', 'desc') 
            ->paginate(10); 
-        }else{
-            $proyecto = Proyecto::with('tarea') 
-            ->where('user_id',Auth::user()->id) 
-           ->Where('id','=',$id) 
-           ->orderBy('user_id', 'desc') 
-           ->paginate(10); 
-        }
-         return view('tarea.show', compact('proyecto'));
+        // }else{
+        //     $proyecto = Proyecto::with('tarea') 
+        //     ->where('user_id',Auth::user()->id) 
+        //    ->Where('id','=',$id) 
+        //    ->orderBy('user_id', 'desc') 
+        //    ->paginate(10); 
+        // }
+         return view('proyecto.show', compact('proyecto'));
     }
 
     /**

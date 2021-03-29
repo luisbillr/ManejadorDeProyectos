@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProyectoController;
-use App\Models\Tarea;
 use App\Http\Controllers\TareaController;
+use App\Http\Controllers\UserController;
+use App\Models\Tarea;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Rutas para el recurso proyecto básicamente las rutas que hacen ABM y listado de Proyectos
     Route::resource('proyecto',ProyectoController::class)->except(['destroy']);
     Route::resource('tarea',TareaController::class)->except(['destroy','index']);
+    Route::resource('user',UserController::class);
     // almacena la tarea nueva
     Route::post("proyecto/{proyecto}/tarea",[TareaController::class,'storeTarea'])->name('tarea.storeTarea');
     // elimina una tarea
@@ -38,4 +41,5 @@ Route::group(['middleware' => 'auth'], function () {
     //Obtener Jsons y Ajax
     Route::get('usersforproyecto',[ProyectoController::class,'GetUsuariosForProyecto']);
     Route::get('usersfortareas',[ProyectoController::class,'GetUsuariosForTareas']);
+    Route::get('GetUsersProyectosInfo',[UserController::class,'GetUsersProyectosInfo']);
   }); 
