@@ -64,7 +64,7 @@
             },
         }).responseText;
         $.each(JSON.parse(datosProyectos), function (idx, obj) {
-            var listatareas = JSON.parse(GetDatosTarea(obj.ProyectoId));
+            var listatareas = JSON.parse(GetDatosTarea(obj.id));
             var porciento = 0;
             var TareasCompletadas = 0;
             console.log(obj);
@@ -74,14 +74,15 @@
                     TareasCompletadas+=1;
                 }
             });
-            porciento = (TareasCompletadas/listatareas.length)*100;
-
-            $("#listaProyectos").append('<a href="' + "http://127.0.0.1:8000/proyecto/"+obj.ProyectoId + '">' 
+            if (listatareas.length > 0) {
+                porciento = (TareasCompletadas/listatareas.length)*100;
+            }
+            $("#listaProyectos").append('<a href="' + "http://127.0.0.1:8000/proyecto/"+obj.id + '">' 
                 +'<div class="row">'
                     +'<input type="text" class="knob" value="'+Math.round(porciento)+'" data-width="70" data-height="70" data-fgColor="#3d9970" readonly disabled >'
-                    +'<h6 class="list-group-item-heading text-info">'+ obj.Proyecto +'<span class="badge text-warning">('+listatareas.length+')</span></h6>'
+                    +'<h6 class="list-group-item-heading text-info">'+ obj.Nombre +'<span class="badge text-warning">('+listatareas.length+')</span></h6>'
                 +'</div>'
-            +'</a>');
+            +'</a>'+'<p></p>');
         });
 
         

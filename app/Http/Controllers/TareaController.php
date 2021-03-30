@@ -68,6 +68,7 @@ class TareaController extends Controller
         // $tarea->completo = false;
         $tarea->descripcion = $request->input('descripcion');
         $proyecto->tarea()->save($tarea);
+        TareaController::UpdateEstadoProyecto($id);
         return redirect()->route('proyecto.show',$id)->with('message', 'Nueva Tarea Guardada!!!');
     }
     /**
@@ -93,7 +94,29 @@ class TareaController extends Controller
         $tarea=Tarea::findOrFail($idTarea);
         $tarea->estado=$request->input('estado');
         $tarea->save();
-        // return response($idTarea);
+        TareaController::UpdateEstadoProyecto($id);
+        // return response($TotalTareas[0]->TotalTareas);
         return redirect()->route('proyecto.show',$id)->with('message', 'Tarea Actualizada!!!');
+    }
+    public static function UpdateEstadoProyecto($id)
+    {
+        $TotalTareas = DB::table('tarea')
+        ->where('proyecto_id','=',$id)
+        ->select(DB::raw('count(tarea.id) as TotalTareas'))
+        ->get();
+        $TareasCompletas = DB::table('tarea')
+        ->where('proyecto_id','=',$id)
+        ->where('estado','=',1)
+        ->select(DB::raw('count(tarea.id) as TareasCompletas'))
+        ->get();
+        if ($TareasCompletas[0]->TareasCompletas == $TotalTareas[0]->TotalTareas) {
+            $proyecto=Proyecto::findOrFail($id);
+            $proyecto->estado=1;
+            $proyecto->save();
+        }else{
+            $proyecto=Proyecto::findOrFail($id);
+            $proyecto->estado=0;
+            $proyecto->save();
+        }
     }
 }

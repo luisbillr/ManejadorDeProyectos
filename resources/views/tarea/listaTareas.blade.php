@@ -23,6 +23,7 @@
                     <form class="modificar" action="{{route('tarea.updateTarea',[$proyecto[0]->id,$t->id])}}" method="POST">
                       {{ csrf_field() }}
                       {{ method_field('PUT') }}
+                      {{-- <input type="hidden" id="EstadoValor" value=""> --}}
                       <div class="col-md-6">
                         <select name="estado" id="estado" onchange="this.form.submit();" class="form-control">
                           <option value="0" {{($t->estado==0)?'selected="selected"':''}}>Ninguno</option>
@@ -53,13 +54,13 @@
                 <td>{{$t->Descripcion}}</td>
                 <!-- eliminar -->
                 <td>
-                  {{-- <form class="eliminar" action="{{route('proyecto.destroyTarea',[$proyecto->id,$t->id])}}" method="POST" onsubmit="return confirm('Está seguro de eliminar Tarea?')">
+                  <form class="eliminar" action="{{route('tarea.destroyTarea',[$proyecto[0]->id,$t->id])}}" method="POST" onsubmit="return confirm('Está seguro de eliminar Tarea?')">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
                     <button type="submit" id="delete-task-{{ $t->id }}" class="btn btn-danger pull-right" title="Eliminar Tarea">
                       <i class="fa fa-trash"></i>
                     </button>
-                  </form><!-- /form.eliminar --> --}}
+                  </form><!-- /form.eliminar -->
                 </td>
               </tr>
               @endforeach
@@ -76,11 +77,11 @@
 <!-- jQuery -->
 <script src="{{asset('adminLTE/plugins/jquery/jquery.min.js')}}"></script>
 <script>
-function myFunction(s) {
-  $(s).parent().parent().parent().submit()
-  // var x = document.getElementById("estado").value;
-   console.log(s);
-}
+// function myFunction(s) {
+//   $(s).parent().parent().parent().submit()
+//   // var x = document.getElementById("estado").value;
+//    console.log(s);
+// }
 	$(document).ready(function(){
 		// $('.selectpicker').selectpicker();
 		// var urldatos = "http://127.0.0.1:8000/usersfortareas";

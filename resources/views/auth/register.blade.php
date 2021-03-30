@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@if(Auth::user()->roles[0]->name == "admin" || Auth::user()->roles[0]->name == "manager")
+    
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -86,4 +89,8 @@
         </div>
     </div>
 </div>
+    
+@else
+    Not Authorized
+@endif
 @endsection

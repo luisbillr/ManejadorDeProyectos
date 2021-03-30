@@ -34,9 +34,8 @@ Route::group(['middleware' => 'auth'], function () {
     // almacena la tarea nueva
     Route::post("proyecto/{proyecto}/tarea",[TareaController::class,'storeTarea'])->name('tarea.storeTarea');
     // elimina una tarea
-    Route::delete("proyecto/{proyecto}/tarea/{idTarea}",['as' => 'proyecto.destroyTarea','uses'=>'ProyectoController@destroyTarea']);
+    Route::delete("proyecto/{proyecto}/tarea/{idTarea}",[TareaController::class,'destroyTarea'])->name('tarea.destroyTarea');
     // modifica una tarea el verbo tiene que ser por método put
-    // Route::put("proyecto/{proyecto}/tarea/{idTarea}",['as' => 'tarea.updateTarea','uses'=>'ProyectoController@updateTarea']);
     Route::put("proyecto/{proyecto}/tarea/{idTarea}",[TareaController::class,'updateTarea'])->name('tarea.updateTarea');
     //Obtener Jsons y Ajax
     Route::get('usersforproyecto',[ProyectoController::class,'GetUsuariosForProyecto']);

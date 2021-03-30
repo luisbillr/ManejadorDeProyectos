@@ -17,6 +17,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Proyecto::class);
     }
+
     /**
      * The attributes that are mass assignable.
      *

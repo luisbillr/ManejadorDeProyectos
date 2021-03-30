@@ -9,6 +9,7 @@ use App\Http\Requests\ProyectoFormRequest;
 use App\Models\Proyecto;
 use App\Models\Tarea;
 use App\Http\Controllers\TareaController;
+use App\Http\Controllers\UserController;
 use DB;
 class ProyectoController extends Controller
 {
@@ -19,19 +20,59 @@ class ProyectoController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        // $q=$request->has('buscar')?'%'.$request->buscar.'%':'%';
+        $qtipo=$request->has('TipoBusqueda')?$request->TipoBusqueda:'proyecto.nombre';
         $q=$request->has('buscar')?'%'.$request->buscar.'%':'%';
-        // $q = $request->get('buscar');
-        $proyectos = Proyecto::with('tarea') //obtener los objetos relacionados
-        ->with('user')
-        // ->join('users','proyecto.user_id','=','users.id')
-        // ->where('user_id',Auth::user()->id) //solo los proyectos del usuario autenticado
-        ->Where('nombre','like',$q) //busca los que contengan en el titulo la palabra buscar
-        ->orderBy('user_id', 'desc') //en orden descendente por id
-        ->paginate(10); //genere la paginación
-        return view('proyecto.index', compact('proyectos'));
-        //  return response($proyectos);
+        if ($qtipo == 'Completo' || $qtipo == 'Incompleto' ) {
+            # code...
+            $estado = 0;
+            if ($qtipo == "Completo") {
+                # code...
+                $proyectos = DB::table('proyecto')
+                // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
+                ->join('users','proyecto.user_id','users.id')
+                ->select('proyecto.*','users.name as Responsable')
+                ->where('proyecto.estado','=',100)
+                ->groupBy('proyecto.id')
+                ->get();
+            }else{
+                $proyectos = DB::table('proyecto')
+                // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
+                ->join('users','proyecto.user_id','users.id')
+                ->select('proyecto.*','users.name as Responsable')
+                ->where('proyecto.estado','<',100)
+                ->groupBy('proyecto.id')
+                ->get();
+            }
+
+        }else{
+            $proyectos = DB::table('proyecto')
+            // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
+            ->join('users','proyecto.user_id','users.id')
+            ->select('proyecto.*','users.name as Responsable')
+            ->where($qtipo,'like',$q)
+            ->groupBy('proyecto.id')
+            ->get();
+        }
+
+
+        $tareas = DB::table('tarea')
+        // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
+        // ->join('users','proyecto.user_id','users.id')
+        // ->select('proyecto.*')
+        // ->groupBy('proyecto.id')
+        ->get();
+        //
+        // $qtipo=$request->has('TipoBusqueda')?$request->TipoBusqueda:'proyecto.nombre';
+        // $q=$request->has('buscar')?'%'.$request->buscar.'%':'%';
+        // $proyectos = Proyecto::with('tarea') //obtener los objetos relacionados
+        // ->with('user')
+        // // ->join('users','proyecto.user_id','=','users.id')
+        // // ->where('user_id',Auth::user()->id) //solo los proyectos del usuario autenticado
+        // ->Where($qtipo,'like',$q) //busca los que contengan en el titulo la palabra buscar
+        // ->orderBy('user_id', 'desc') //en orden descendente por id
+        // ->paginate(10); //genere la paginación
+        return view('proyecto.index', ['proyectos'=>$proyectos, 'tareas'=>$tareas]);
+        //  return response(['proyectos'=>$proyectos, 'tareas'=>$tareas]);
     }
 
     /**
@@ -57,6 +98,7 @@ class ProyectoController extends Controller
         $proyecto = new Proyecto();
         $proyecto->nombre = $request->input("nombre");
         $proyecto->descripcion = $request->input("descripcion");
+        $proyecto->estado = 0;
         if (Auth::user()->roles[0]->name == "admin")
         {
             $proyecto->user_id =  $request->user_asigned_to;

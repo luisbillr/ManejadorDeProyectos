@@ -23,7 +23,10 @@ class CreateProyectoTable extends Migration
             ->on('users')
             ->onDelete('cascade');
             $table->timestamps();
+            $table->integer('estado');
         });
+         // Add the constraint
+         DB::statement('ALTER TABLE proyecto ADD CONSTRAINT chk_estado_proyecto_value CHECK (estado = 0 or estado=1);');
     }
 
     /**

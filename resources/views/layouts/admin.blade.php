@@ -58,9 +58,9 @@
             @endif
             
             @if (Route::has('register'))
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                </li>
+                </li> --}}
             @endif
         @else
             <li class="nav-item dropdown">
@@ -116,7 +116,11 @@
           <img src="{{asset('adminLTE/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">LUIS HESKEY</a>
+          @guest
+          @else
+            <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          @endguest
+         
         </div>
       </div>
 
@@ -185,7 +189,7 @@
               </li> --}}
             </ul>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
@@ -193,9 +197,9 @@
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
-          </li>
+          </li> --}}
 
-          <li class="nav-header">Administrativo</li>
+          {{-- <li class="nav-header">Administrativo</li> --}}
           
         </ul>
       </nav>
