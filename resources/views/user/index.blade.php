@@ -15,8 +15,9 @@
                 {{-- <label for="buscar" class="control-label col-sm-offset-1">Proyecto</label> --}}
                 <div class="input-group col-sm-offset-1 col-sm-10">
                     <select name="TipoBusqueda" id="TipoBusqueda" class="form-control col-sm-2">
-                        <option value="name">Nombre</option>
-                        <option value="email">Correo</option>
+                        <option value="users.name">Nombre</option>
+                        <option value="users.email">Correo</option>
+                        <option value="roles.name">Rol</option>
                     </select>
                     <input type="text" name="buscar" id="buscar" class="form-control" value="" placeholder="Buscar Usuario">
                     <span class="input-group-btn">

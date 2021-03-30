@@ -14,13 +14,13 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //
-        $qtipo=$request->has('TipoBusqueda')?$request->TipoBusqueda:'name';
+        $qtipo=$request->has('TipoBusqueda')?$request->TipoBusqueda:'users.name';
         $q=$request->has('buscar')?'%'.$request->buscar.'%':'%';
         $users = DB::table("users")
         ->join('role_user','users.id','=','role_user.user_id')
         ->join('roles','role_user.role_id','=','roles.id')
         // -join('proyecto','users.id','=',)
-        ->where('users.'.$qtipo,'like',$q)
+        ->where($qtipo,'like',$q)
         ->select('users.*','roles.name as Rol')
         ->get();
         return view('user.index', compact('users'));
