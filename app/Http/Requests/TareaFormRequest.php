@@ -26,6 +26,7 @@ class TareaFormRequest extends FormRequest
         return [
             //
             'nombre' => 'required|max:30',
+            'descripcion'=>'required|max:250',
             'user_asigned_to' => 'required|not_in:0',
         ];
     }

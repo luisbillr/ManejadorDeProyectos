@@ -13,6 +13,7 @@
               <th>Estado</td>
               <th>Nombre</th>
               <th>Descripcion</th>
+              <th>Asignado a</th>
             </thead>
             <tbody>
               @foreach ($proyecto[0]->tarea as $t)
@@ -24,7 +25,7 @@
                       {{ csrf_field() }}
                       {{ method_field('PUT') }}
                       {{-- <input type="hidden" id="EstadoValor" value=""> --}}
-                      <div class="col-md-6">
+                      <div class="col-md-10">
                         <select name="estado" id="estado" onchange="this.form.submit();" class="form-control">
                           <option value="0" {{($t->estado==0)?'selected="selected"':''}}>Ninguno</option>
                           <option value="1" {{($t->estado==1)?'selected="selected"':''}}>Completada</option>
@@ -47,13 +48,20 @@
                       <!--</div>-->
                     </form><!-- /form.modificar -->
                   @else
-                    X
+                    <b class="text-danger">X</b>
                   @endif
                 </td>
                 <td>{{$t->Nombre}}</td>
                 <td>{{$t->Descripcion}}</td>
+                @foreach ($participantes as $participante)
+                  @if($t->user_asigned_to == $participante->id)           
+                    <td>{{$participante->name}}</td>
+                  @endif
+                @endforeach
+
                 <!-- eliminar -->
                 <td>
+                  @if(Auth::User()->id == $t->user_asigned_by || Auth::User()->id == $t->user_asigned_to && Auth::User()->roles[0]->name == "manager")
                   <form class="eliminar" action="{{route('tarea.destroyTarea',[$proyecto[0]->id,$t->id])}}" method="POST" onsubmit="return confirm('Está seguro de eliminar Tarea?')">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
@@ -62,6 +70,7 @@
                     </button>
                   </form><!-- /form.eliminar -->
                 </td>
+                @endif
               </tr>
               @endforeach
             </tbody>

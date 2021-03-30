@@ -16,7 +16,7 @@ class OnlyAdmins
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->roles[0]->name =="admin") {
+        if(Auth::check() && Auth::user()->roles[0]->name =="admin" || Auth::user()->roles[0]->name =="manager") {
             return $next($request);
         }
         abort(403, 'Access denied');

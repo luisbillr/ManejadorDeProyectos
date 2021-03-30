@@ -22,10 +22,16 @@
 							<option value="Incompleto">Incompleto</option>
 							<option value="Fecha">Fecha</option>
 						</select>
-						<div class="col-md-4" id="divBuscarFecha">
+						<div class="col-md-8" id="divBuscarFecha">
 							
-							<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="basic-addon1">Desde: </span>
+								</div>
 								<input type="date" id="dtpFechaDesde" name="FechaCreacionDesde" class="form-control">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="basic-addon1">Hasta: </span>
+								</div>
 								<input type="date" id="dtpFechaHasta" name="FechaCreacionHasta" class="form-control">
 							</div>
 							
@@ -44,12 +50,11 @@
 		<div class="list-group">
 			@foreach($proyectos as $proyecto)
 			@php
-			if (count($tareas)>0) {
 				$porciento=0;
-				# code...
-				// $tareitas = App\Http\Controllers\UserController::GetUsersTareaInfoByIdProyecto(1);
 				$tareasRealizadas = 0;
 				$TotalTareas = 0;
+			if (count($tareas)>0) {
+			
 				foreach ($tareas as $tarea) {
 					# code...
 					if ($tarea->proyecto_id == $proyecto->id) {
@@ -66,7 +71,6 @@
 					# code...
 					$porciento = ($tareasRealizadas/$TotalTareas)*100;
 				}
-				
 			  }
 			// if (count($proyecto->tarea)>0) {
 			// 	# code...
@@ -113,12 +117,12 @@
 <script>
 	function TipoBusquedaFunc()
 	{
-		var now = new Date();
-		var day = ("0" + now.getDate()).slice(-2);
-		var month = ("0" + (now.getMonth() + 1)).slice(-2);
-		var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
-		$("#dtpFechaDesde").val(today);
-		$("#dtpFechaHasta").val(today);
+		// var now = new Date();
+		// var day = ("0" + now.getDate()).slice(-2);
+		// var month = ("0" + (now.getMonth() + 1)).slice(-2);
+		// var today = (day)+"-"+(month)+"-"+now.getFullYear() ;
+		$("#dtpFechaDesde").val();
+		$("#dtpFechaHasta").val();
 		var tipo = $("#TipoBusqueda").val();
 		if (tipo == "Fecha") {
 			$("#buscar").hide();

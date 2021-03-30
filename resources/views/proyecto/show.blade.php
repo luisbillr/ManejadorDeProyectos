@@ -22,7 +22,8 @@
 						<input type="hidden" id="txtResponsable" value="{{$proyecto[0]->user_id}}">
 						<div class="form-group">
 							<h4><b>Proyecto:</b> {{$proyecto[0]->Nombre}}<!-- Button trigger modal -->
-								@if(Auth::user()->roles[0]->name == "admin" || Auth::user()->roles[0]->name == "manager")
+								{{-- @if(Auth::user()->roles[0]->name == "admin" || Auth::user()->roles[0]->name == "manager") --}}
+								@if(Auth::user()->id == $proyecto[0]->user_id )
 										<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
 										Agregar Tarea
 										</button>
@@ -61,6 +62,12 @@
 											</tr>
 										</thead>
 										<tbody>
+											@foreach ($participantes as $participante)
+												<tr>
+													<td>{{$participante->name}}</td>
+													<td>{{$participante->email}}</td>
+												</tr>
+											@endforeach
 										</tbody>
 									</table>
 								</div>
@@ -134,7 +141,7 @@
 </div>
 
 <div class="row">
-	<a class="btn btn-default" href="{{ route('proyecto.index') }}"><i class="fa fa-backward"></i> Atras</a>
+	<a class="btn btn-dark" href="{{ route('proyecto.index') }}"><i class="fa fa-backward"></i> Atras</a>
 </div>
 
 <!-- jQuery -->
@@ -161,12 +168,12 @@ function GetUsuariosDelProyecto(id)
 		},
 	}).responseText;
 	datos = JSON.parse(datosTareas);
-	datos.forEach(element => {
-		$("#tblUsuarios > tbody ").append('<tr>'
-		+'<td>'+ element.name +'<td/>'
-		+'<td>'+ element.email +'<td/>'
-		+ '</tr>');
-	});
+	// datos.forEach(element => {
+	// 	$("#tblUsuarios > tbody ").append('<tr>'
+	// 	+'<td>'+ element.name +'<td/>'
+	// 	+'<td>'+ element.email +'<td/>'
+	// 	+ '</tr>');
+	// });
 	return datosTareas;
 }
 $(document).ready(function(){
@@ -177,8 +184,8 @@ $(document).ready(function(){
 	var TareasSinEstado = 0;
 	var TSPorciento = 0;
 	let idproyecto =  $("#txtIdProyecto").val();
-	var listadeusuarios = JSON.parse(GetUsuariosDelProyecto(idproyecto));
-	console.log(listadeusuarios);
+	// var listadeusuarios = JSON.parse(GetUsuariosDelProyecto(idproyecto));
+	// console.log(listadeusuarios);
 	var listatareas = JSON.parse(GetDatosTarea(idproyecto));
 		console.log(listatareas.length)
 		listatareas.forEach(element => {

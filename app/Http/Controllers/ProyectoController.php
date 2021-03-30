@@ -22,6 +22,8 @@ class ProyectoController extends Controller
     {
         $qtipo=$request->has('TipoBusqueda')?$request->TipoBusqueda:'proyecto.nombre';
         $q=$request->has('buscar')?'%'.$request->buscar.'%':'%';
+        $fechaDesde = $request->get('FechaCreacionDesde');
+        $fechaHasta = $request->get('FechaCreacionHasta');
         if ($qtipo == 'Completo' || $qtipo == 'Incompleto' ) {
             # code...
             $estado = 0;
@@ -31,7 +33,7 @@ class ProyectoController extends Controller
                 // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
                 ->join('users','proyecto.user_id','users.id')
                 ->select('proyecto.*','users.name as Responsable')
-                ->where('proyecto.estado','=',100)
+                ->where('proyecto.estado','=',1)
                 ->groupBy('proyecto.id')
                 ->get();
             }else{
@@ -39,19 +41,30 @@ class ProyectoController extends Controller
                 // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
                 ->join('users','proyecto.user_id','users.id')
                 ->select('proyecto.*','users.name as Responsable')
-                ->where('proyecto.estado','<',100)
+                ->where('proyecto.estado','=',0)
                 ->groupBy('proyecto.id')
                 ->get();
             }
 
         }else{
-            $proyectos = DB::table('proyecto')
-            // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
-            ->join('users','proyecto.user_id','users.id')
-            ->select('proyecto.*','users.name as Responsable')
-            ->where($qtipo,'like',$q)
-            ->groupBy('proyecto.id')
-            ->get();
+            if ($qtipo == "Fecha") {
+                $proyectos = DB::table('proyecto')
+                // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
+                ->join('users','proyecto.user_id','users.id')
+                ->select('proyecto.*','users.name as Responsable')
+                ->where('proyecto.created_at','>=',$fechaDesde)
+                ->where('proyecto.created_at','<=',$fechaHasta)
+                ->groupBy('proyecto.id')
+                ->get();
+            }else{
+                $proyectos = DB::table('proyecto')
+                // ->join('tarea','proyecto.id','=','tarea.proyecto_id')
+                ->join('users','proyecto.user_id','users.id')
+                ->select('proyecto.*','users.name as Responsable')
+                ->where($qtipo,'like',$q)
+                ->groupBy('proyecto.id')
+                ->get();
+            }
         }
 
 
@@ -73,6 +86,7 @@ class ProyectoController extends Controller
         // ->paginate(10); //genere la paginación
         return view('proyecto.index', ['proyectos'=>$proyectos, 'tareas'=>$tareas]);
         //  return response(['proyectos'=>$proyectos, 'tareas'=>$tareas]);
+        // return response($fechaDesde);
     }
 
     /**
@@ -123,7 +137,14 @@ class ProyectoController extends Controller
             // ->where('user_id',Auth::user()->id) //solo los proyectos del usuario autenticado
            ->Where('id','=',$id) 
            ->orderBy('user_id', 'desc') 
-           ->paginate(10); 
+           ->paginate(10);
+           $participantes = DB::table('users')
+           ->join('tarea','tarea.user_asigned_to','=','users.id')
+           ->join('proyecto','tarea.proyecto_id','=','proyecto.id')
+           ->where('proyecto.id','=',$id)
+           ->select("users.*")
+           ->groupBy('users.id')
+           ->get();
         // }else{
         //     $proyecto = Proyecto::with('tarea') 
         //     ->where('user_id',Auth::user()->id) 
@@ -131,7 +152,7 @@ class ProyectoController extends Controller
         //    ->orderBy('user_id', 'desc') 
         //    ->paginate(10); 
         // }
-         return view('proyecto.show', compact('proyecto'));
+         return view('proyecto.show', ['proyecto'=>$proyecto,'participantes'=>$participantes]);
     }
 
     /**

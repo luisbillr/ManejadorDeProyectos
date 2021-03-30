@@ -45,7 +45,7 @@
 			@endif
 			<div class="well well-sm">
 				<button type="submit" class="btn btn-primary">Crear</button>
-				<a class="btn btn-default" href="{{ route('proyecto.index') }}"><i class="fa fa-backward"></i> Atras</a>
+				<a class="btn btn-dark" href="{{ route('proyecto.index') }}"><i class="fa fa-backward"></i> Atras</a>
 			</div>
 		</form>
 
